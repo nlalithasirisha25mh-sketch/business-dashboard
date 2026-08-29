@@ -28,7 +28,7 @@ st.markdown("""
     background: linear-gradient(180deg, #F7F2FF 0%, #FFFFFF 45%);
 }
 
-/* Main headings */
+/* Main title */
 .main-title {
     font-size: 52px;
     font-weight: 800;
@@ -42,7 +42,7 @@ st.markdown("""
     margin-bottom: 25px;
 }
 
-/* Hero */
+/* Hero section */
 .hero {
     background: linear-gradient(135deg, #5B2C83, #8E5BB7);
     padding: 32px;
@@ -75,12 +75,6 @@ st.markdown("""
 .verified {
     color: #1F8A4C;
     font-weight: 600;
-}
-
-/* Small text */
-.small-muted {
-    color: #777;
-    font-size: 14px;
 }
 
 /* Secure payment */
@@ -147,6 +141,26 @@ if "help_requests" not in st.session_state:
 
 
 # ============================================================
+# HOSTEL BLOCKS
+# ============================================================
+
+HOSTEL_BLOCKS = [
+    "ABCD Block",
+    "QRS Block",
+    "U-Block",
+    "T-Block",
+    "G-Block",
+    "H-Block",
+    "B1-Block",
+    "B2-Block",
+    "D1-Block",
+    "D2-Block",
+    "S1-Block",
+    "S2-Block"
+]
+
+
+# ============================================================
 # SAMPLE MARKETPLACE DATA
 # ============================================================
 
@@ -162,7 +176,7 @@ marketplace_data = [
         "condition": "Excellent",
         "rating": 4.8,
         "seller": "IBX Student 104",
-        "location": "Hostel Block A",
+        "location": "ABCD Block",
         "transactions": 18
     },
 
@@ -176,7 +190,7 @@ marketplace_data = [
         "condition": "Good",
         "rating": 4.7,
         "seller": "IBX Student 218",
-        "location": "Hostel Block B",
+        "location": "QRS Block",
         "transactions": 12
     },
 
@@ -190,7 +204,7 @@ marketplace_data = [
         "condition": "Excellent",
         "rating": 4.9,
         "seller": "IBX Student 302",
-        "location": "Hostel Block A",
+        "location": "U-Block",
         "transactions": 24
     },
 
@@ -204,7 +218,7 @@ marketplace_data = [
         "condition": "Good",
         "rating": 4.6,
         "seller": "IBX Student 187",
-        "location": "Hostel Block C",
+        "location": "T-Block",
         "transactions": 10
     },
 
@@ -218,7 +232,7 @@ marketplace_data = [
         "condition": "Excellent",
         "rating": 4.9,
         "seller": "IBX Student 411",
-        "location": "Hostel Block B",
+        "location": "G-Block",
         "transactions": 20
     },
 
@@ -232,7 +246,7 @@ marketplace_data = [
         "condition": "Good",
         "rating": 4.5,
         "seller": "IBX Student 096",
-        "location": "Hostel Block A",
+        "location": "H-Block",
         "transactions": 8
     },
 
@@ -246,7 +260,7 @@ marketplace_data = [
         "condition": "Good",
         "rating": 4.8,
         "seller": "IBX Student 355",
-        "location": "Hostel Block C",
+        "location": "B1-Block",
         "transactions": 15
     },
 
@@ -260,14 +274,14 @@ marketplace_data = [
         "condition": "Good",
         "rating": 4.7,
         "seller": "IBX Student 274",
-        "location": "Hostel Block A",
+        "location": "D1-Block",
         "transactions": 16
     }
 
 ]
 
 
-# Add student-created listings
+# Add user-created listings
 marketplace_data.extend(
     st.session_state.custom_listings
 )
@@ -286,6 +300,7 @@ st.sidebar.caption(
     "IBS Exchange • One Campus. One Platform."
 )
 
+
 pages = [
     "🏠 Home",
     "🛍️ Marketplace",
@@ -298,9 +313,11 @@ pages = [
     "👤 Profile"
 ]
 
+
 # IMPORTANT:
-# The radio button does NOT use key="nav".
-# This prevents the StreamlitAPIException that occurred earlier.
+# Do NOT use key="nav".
+# The previous version caused a StreamlitAPIException
+# when Buy Now/Rent Now attempted to change navigation.
 
 selected_page = st.sidebar.radio(
     "Navigate",
@@ -389,6 +406,7 @@ if st.session_state.current_page == "🏠 Home":
     a, b, c = st.columns(3)
 
     with a:
+
         st.markdown("""
         <div class="card">
             <h3>🔄 Rent</h3>
@@ -399,7 +417,9 @@ if st.session_state.current_page == "🏠 Home":
         </div>
         """, unsafe_allow_html=True)
 
+
     with b:
+
         st.markdown("""
         <div class="card">
             <h3>🛍️ Buy</h3>
@@ -410,7 +430,9 @@ if st.session_state.current_page == "🏠 Home":
         </div>
         """, unsafe_allow_html=True)
 
+
     with c:
+
         st.markdown("""
         <div class="card">
             <h3>💰 Sell / Lend</h3>
@@ -424,7 +446,9 @@ if st.session_state.current_page == "🏠 Home":
 
     d, e, f = st.columns(3)
 
+
     with d:
+
         st.markdown("""
         <div class="card">
             <h3>🚚 Campus Delivery</h3>
@@ -435,7 +459,9 @@ if st.session_state.current_page == "🏠 Home":
         </div>
         """, unsafe_allow_html=True)
 
+
     with e:
+
         st.markdown("""
         <div class="card">
             <h3>🏥 Essential Help</h3>
@@ -446,7 +472,9 @@ if st.session_state.current_page == "🏠 Home":
         </div>
         """, unsafe_allow_html=True)
 
+
     with f:
+
         st.markdown("""
         <div class="card">
             <h3>⭐ Earn Points</h3>
@@ -492,6 +520,7 @@ elif st.session_state.current_page == "🛍️ Marketplace":
 
 
     col1, col2 = st.columns(2)
+
 
     categories = sorted(
         list(
@@ -648,7 +677,6 @@ elif st.session_state.current_page == "🛍️ Marketplace":
                 key=f"select_{item['id']}"
             ):
 
-                # Store selected item
                 st.session_state.selected_item = item
 
                 # Navigate safely
@@ -698,6 +726,7 @@ elif st.session_state.current_page == "➕ List an Item":
             "Personal Care",
             "Sports",
             "Bags",
+            "Event / Function",
             "Other"
         ]
     )
@@ -741,15 +770,31 @@ elif st.session_state.current_page == "➕ List an Item":
         )
 
 
-    location = st.selectbox(
-        "Pickup Location",
-        [
-            "Hostel Block A",
-            "Hostel Block B",
-            "Hostel Block C",
-            "Hostel Block D"
-        ]
+    # ========================================================
+    # HOSTEL BLOCK
+    # ========================================================
+
+    location_options = HOSTEL_BLOCKS + [
+        "Other / Enter Manually"
+    ]
+
+
+    location_option = st.selectbox(
+        "📍 Hostel Block",
+        location_options
     )
+
+
+    if location_option == "Other / Enter Manually":
+
+        location = st.text_input(
+            "Enter your hostel/block name",
+            placeholder="Enter hostel/block"
+        )
+
+    else:
+
+        location = location_option
 
 
     description = st.text_area(
@@ -769,13 +814,19 @@ elif st.session_state.current_page == "➕ List an Item":
                 "Please enter the item name."
             )
 
+        elif location.strip() == "":
+
+            st.warning(
+                "Please enter your hostel/block."
+            )
+
         else:
 
             new_listing = {
 
                 "id":
-                    "L" +
-                    str(
+                    "L"
+                    + str(
                         1000
                         + len(
                             st.session_state.custom_listings
@@ -880,6 +931,10 @@ elif st.session_state.current_page == "🛒 Checkout":
 
         st.write(
             f"Seller: **{item['seller']}**"
+        )
+
+        st.write(
+            f"📍 Item location: **{item['location']}**"
         )
 
 
@@ -1055,7 +1110,7 @@ elif st.session_state.current_page == "🛒 Checkout":
 
 
         # ====================================================
-        # UPI
+        # UPI PAYMENT
         # ====================================================
 
         if "UPI" in payment_method:
@@ -1067,12 +1122,12 @@ elif st.session_state.current_page == "🛒 Checkout":
 
             <br><br>
 
-            Your UPI details would be processed through
-            an authorised payment gateway.
+            In a live version, payment would be processed
+            through an authorised payment gateway.
 
-            <br>
+            <br><br>
 
-            <b>Your payment details are not visible
+            <b>Your payment details would not be visible
             to the seller.</b>
 
             </div>
@@ -1093,7 +1148,7 @@ elif st.session_state.current_page == "🛒 Checkout":
 
 
         # ====================================================
-        # CARD
+        # CARD PAYMENT
         # ====================================================
 
         elif "Card" in payment_method:
@@ -1108,7 +1163,7 @@ elif st.session_state.current_page == "🛒 Checkout":
             In a live implementation, card information
             would be handled directly by the payment gateway.
 
-            <br>
+            <br><br>
 
             <b>Card details would not be shared with sellers.</b>
 
@@ -1149,7 +1204,7 @@ elif st.session_state.current_page == "🛒 Checkout":
 
 
         # ====================================================
-        # COD
+        # CASH ON DELIVERY
         # ====================================================
 
         else:
@@ -1163,7 +1218,7 @@ elif st.session_state.current_page == "🛒 Checkout":
 
             Pay when the item is handed over to you.
 
-            <br>
+            <br><br>
 
             Your payment information is not required.
 
@@ -1195,7 +1250,7 @@ elif st.session_state.current_page == "🛒 Checkout":
             confirm_text
         ):
 
-            # Generate anonymous prototype order ID
+            # Anonymous prototype order ID
 
             order_id = (
                 "IBX-"
@@ -1393,15 +1448,34 @@ elif st.session_state.current_page == "🚚 Delivery & Help":
 
 
         pickup = st.text_input(
-            "Pickup Location",
-            placeholder="Main Gate"
+            "📍 Pickup Location",
+            placeholder="Example: IBS Main Gate"
         )
 
 
-        drop = st.text_input(
-            "Drop Location",
-            placeholder="Hostel Block B"
+        # Actual hostel blocks
+
+        delivery_blocks = HOSTEL_BLOCKS + [
+            "Other / Enter Manually"
+        ]
+
+
+        drop_option = st.selectbox(
+            "📦 Delivery Location",
+            delivery_blocks
         )
+
+
+        if drop_option == "Other / Enter Manually":
+
+            drop = st.text_input(
+                "Enter delivery block",
+                placeholder="Enter hostel/block"
+            )
+
+        else:
+
+            drop = drop_option
 
 
         fee = st.number_input(
@@ -1419,7 +1493,7 @@ elif st.session_state.current_page == "🚚 Delivery & Help":
             if not pickup or not drop:
 
                 st.warning(
-                    "Please enter both locations."
+                    "Please enter both pickup and delivery locations."
                 )
 
             else:
@@ -1466,10 +1540,10 @@ elif st.session_state.current_page == "🚚 Delivery & Help":
                     "Parcel Pickup",
 
                 "Pickup":
-                    "Main Gate",
+                    "IBS Main Gate",
 
                 "Drop":
-                    "Hostel Block A",
+                    "ABCD Block",
 
                 "Reward":
                     20,
@@ -1486,7 +1560,7 @@ elif st.session_state.current_page == "🚚 Delivery & Help":
                     "Campus Store",
 
                 "Drop":
-                    "Hostel Block C",
+                    "QRS Block",
 
                 "Reward":
                     15,
