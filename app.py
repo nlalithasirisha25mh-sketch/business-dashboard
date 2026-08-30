@@ -12,8 +12,7 @@ from datetime import datetime
 st.set_page_config(
     page_title="IBeX | IBS Exchange",
     page_icon="🟣",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="wide"
 )
 
 
@@ -108,9 +107,31 @@ div.stButton > button:hover {
     color: white;
 }
 
-/* Sidebar */
-section[data-testid="stSidebar"] {
-    background-color: #F4EEFA;
+/* Horizontal Navigation */
+.nav-container {
+    background: white;
+    padding: 12px 10px;
+    border-radius: 14px;
+    box-shadow: 0px 3px 12px rgba(0,0,0,0.06);
+    margin-bottom: 25px;
+}
+
+.nav-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #5B2C83;
+    margin-bottom: 5px;
+}
+
+.nav-subtitle {
+    font-size: 12px;
+    color: #777;
+}
+
+/* Active navigation button */
+div.stButton > button[kind="primary"] {
+    background-color: #5B2C83;
+    color: white;
 }
 
 </style>
@@ -122,7 +143,7 @@ section[data-testid="stSidebar"] {
 # ============================================================
 
 if "current_page" not in st.session_state:
-    st.session_state.current_page = "🏠 Home"
+    st.session_state.current_page = "Home"
 
 if "selected_item" not in st.session_state:
     st.session_state.selected_item = None
@@ -282,85 +303,141 @@ marketplace_data = [
 
 
 # Add user-created listings
+
 marketplace_data.extend(
     st.session_state.custom_listings
 )
 
 
 # ============================================================
-# SIDEBAR NAVIGATION
+# TOP BRAND HEADER
 # ============================================================
 
-st.sidebar.markdown(
-    "<h1 style='color:#5B2C83;'>🟣 IBeX</h1>",
+header_left, header_right = st.columns([4, 1])
+
+with header_left:
+
+    st.markdown(
+        '<div class="main-title">🟣 IBeX</div>',
+        unsafe_allow_html=True
+    )
+
+    st.markdown(
+        '<div class="nav-subtitle">IBS Exchange • One Campus. One Platform.</div>',
+        unsafe_allow_html=True
+    )
+
+with header_right:
+
+    st.metric(
+        "⭐ IBeX Points",
+        st.session_state.points
+    )
+
+
+# ============================================================
+# HORIZONTAL NAVIGATION
+# ============================================================
+
+st.markdown(
+    '<div class="nav-container">',
     unsafe_allow_html=True
 )
 
-st.sidebar.caption(
-    "IBS Exchange • One Campus. One Platform."
-)
+nav1, nav2, nav3, nav4, nav5 = st.columns(5)
+
+nav6, nav7, nav8, nav9 = st.columns(4)
 
 
-pages = [
-    "🏠 Home",
-    "🛍️ Marketplace",
-    "➕ List an Item",
-    "🛒 Checkout",
-    "📦 My Orders",
-    "🚚 Delivery & Help",
-    "🏥 Essential Assistance",
-    "⭐ Rewards",
-    "👤 Profile"
-]
+with nav1:
+    if st.button(
+        "🏠 Home",
+        use_container_width=True
+    ):
+        st.session_state.current_page = "Home"
+        st.rerun()
 
 
-# IMPORTANT:
-# Do NOT use key="nav".
-# The previous version caused a StreamlitAPIException
-# when Buy Now/Rent Now attempted to change navigation.
-
-selected_page = st.sidebar.radio(
-    "Navigate",
-    pages,
-    index=pages.index(st.session_state.current_page)
-)
-
-st.session_state.current_page = selected_page
+with nav2:
+    if st.button(
+        "🛍️ Marketplace",
+        use_container_width=True
+    ):
+        st.session_state.current_page = "Marketplace"
+        st.rerun()
 
 
-st.sidebar.markdown("---")
+with nav3:
+    if st.button(
+        "➕ List Item",
+        use_container_width=True
+    ):
+        st.session_state.current_page = "List an Item"
+        st.rerun()
 
-st.sidebar.metric(
-    "⭐ IBeX Points",
-    st.session_state.points
-)
 
-st.sidebar.markdown(
-    "🔐 **Verified IBS Community**"
-)
+with nav4:
+    if st.button(
+        "🛒 Checkout",
+        use_container_width=True
+    ):
+        st.session_state.current_page = "Checkout"
+        st.rerun()
 
-st.sidebar.caption(
-    "Only verified IBS students can participate."
-)
+
+with nav5:
+    if st.button(
+        "📦 My Orders",
+        use_container_width=True
+    ):
+        st.session_state.current_page = "My Orders"
+        st.rerun()
+
+
+with nav6:
+    if st.button(
+        "🚚 Delivery & Help",
+        use_container_width=True
+    ):
+        st.session_state.current_page = "Delivery & Help"
+        st.rerun()
+
+
+with nav7:
+    if st.button(
+        "🏥 Essential Help",
+        use_container_width=True
+    ):
+        st.session_state.current_page = "Essential Assistance"
+        st.rerun()
+
+
+with nav8:
+    if st.button(
+        "⭐ Rewards",
+        use_container_width=True
+    ):
+        st.session_state.current_page = "Rewards"
+        st.rerun()
+
+
+with nav9:
+    if st.button(
+        "👤 Profile",
+        use_container_width=True
+    ):
+        st.session_state.current_page = "Profile"
+        st.rerun()
+
+
+st.markdown("</div>", unsafe_allow_html=True)
 
 
 # ============================================================
 # HOME
 # ============================================================
 
-if st.session_state.current_page == "🏠 Home":
-
-    st.markdown(
-        '<div class="main-title">IBeX</div>',
-        unsafe_allow_html=True
-    )
-
-    st.markdown(
-        '<div class="tagline">'
-        'Rent • Buy • Sell • Lend • Deliver • Help'
-        '</div>',
-        unsafe_allow_html=True
-    )
+if st.session_state.current_page == "Home":
 
     st.markdown("""
     <div class="hero">
@@ -502,7 +579,7 @@ if st.session_state.current_page == "🏠 Home":
 # MARKETPLACE
 # ============================================================
 
-elif st.session_state.current_page == "🛍️ Marketplace":
+elif st.session_state.current_page == "Marketplace":
 
     st.title("🛍️ IBeX Marketplace")
 
@@ -510,8 +587,6 @@ elif st.session_state.current_page == "🛍️ Marketplace":
         "Buy or rent products listed by verified IBS students."
     )
 
-
-    # SEARCH
 
     search = st.text_input(
         "🔍 Search for an item",
@@ -548,8 +623,6 @@ elif st.session_state.current_page == "🛍️ Marketplace":
         )
 
 
-    # FILTERING
-
     filtered = marketplace_data.copy()
 
 
@@ -568,8 +641,7 @@ elif st.session_state.current_page == "🛍️ Marketplace":
         filtered = [
             item
             for item in filtered
-            if item["category"]
-            == category_filter
+            if item["category"] == category_filter
         ]
 
 
@@ -578,8 +650,7 @@ elif st.session_state.current_page == "🛍️ Marketplace":
         filtered = [
             item
             for item in filtered
-            if item["type"]
-            == type_filter
+            if item["type"] == type_filter
         ]
 
 
@@ -592,8 +663,6 @@ elif st.session_state.current_page == "🛍️ Marketplace":
             "No matching listings found."
         )
 
-
-    # DISPLAY ITEMS
 
     for item in filtered:
 
@@ -679,8 +748,7 @@ elif st.session_state.current_page == "🛍️ Marketplace":
 
                 st.session_state.selected_item = item
 
-                # Navigate safely
-                st.session_state.current_page = "🛒 Checkout"
+                st.session_state.current_page = "Checkout"
 
                 st.rerun()
 
@@ -692,7 +760,7 @@ elif st.session_state.current_page == "🛍️ Marketplace":
 # LIST AN ITEM
 # ============================================================
 
-elif st.session_state.current_page == "➕ List an Item":
+elif st.session_state.current_page == "List an Item":
 
     st.title("➕ List an Item")
 
@@ -770,10 +838,6 @@ elif st.session_state.current_page == "➕ List an Item":
         )
 
 
-    # ========================================================
-    # HOSTEL BLOCK
-    # ========================================================
-
     location_options = HOSTEL_BLOCKS + [
         "Other / Enter Manually"
     ]
@@ -842,8 +906,7 @@ elif st.session_state.current_page == "➕ List an Item":
                 "type":
                     (
                         "Rent"
-                        if listing_type
-                        == "Lend / Rent"
+                        if listing_type == "Lend / Rent"
                         else "Buy"
                     ),
 
@@ -886,15 +949,13 @@ elif st.session_state.current_page == "➕ List an Item":
 # CHECKOUT
 # ============================================================
 
-elif st.session_state.current_page == "🛒 Checkout":
+elif st.session_state.current_page == "Checkout":
 
     st.title("🛒 Secure Checkout")
 
 
     item = st.session_state.selected_item
 
-
-    # No item selected
 
     if item is None:
 
@@ -905,7 +966,7 @@ elif st.session_state.current_page == "🛒 Checkout":
 
         if st.button("← Go to Marketplace"):
 
-            st.session_state.current_page = "🛍️ Marketplace"
+            st.session_state.current_page = "Marketplace"
 
             st.rerun()
 
@@ -941,10 +1002,6 @@ elif st.session_state.current_page == "🛒 Checkout":
         st.markdown("---")
 
 
-        # ====================================================
-        # RENTAL CALCULATION
-        # ====================================================
-
         if item["type"] == "Rent":
 
             days = st.number_input(
@@ -958,9 +1015,7 @@ elif st.session_state.current_page == "🛒 Checkout":
                 "Rental fee is calculated per day."
             )
 
-            base_price = (
-                item["price"] * days
-            )
+            base_price = item["price"] * days
 
         else:
 
@@ -969,13 +1024,7 @@ elif st.session_state.current_page == "🛒 Checkout":
             base_price = item["price"]
 
 
-        # ====================================================
-        # DELIVERY
-        # ====================================================
-
-        st.subheader(
-            "🚚 Delivery"
-        )
+        st.subheader("🚚 Delivery")
 
 
         delivery_option = st.radio(
@@ -996,10 +1045,6 @@ elif st.session_state.current_page == "🛒 Checkout":
             delivery_fee = 0
 
 
-        # ====================================================
-        # SECURITY DEPOSIT
-        # ====================================================
-
         if item["type"] == "Rent":
 
             deposit = item["deposit"]
@@ -1016,15 +1061,9 @@ elif st.session_state.current_page == "🛒 Checkout":
         )
 
 
-        # ====================================================
-        # ORDER SUMMARY
-        # ====================================================
-
         st.markdown("---")
 
-        st.subheader(
-            "💰 Order Summary"
-        )
+        st.subheader("💰 Order Summary")
 
 
         summary_col1, summary_col2 = st.columns(2)
@@ -1044,9 +1083,7 @@ elif st.session_state.current_page == "🛒 Checkout":
                     "Product Price"
                 )
 
-            st.write(
-                "Delivery"
-            )
+            st.write("Delivery")
 
             if item["type"] == "Rent":
 
@@ -1088,15 +1125,9 @@ elif st.session_state.current_page == "🛒 Checkout":
             )
 
 
-        # ====================================================
-        # PAYMENT
-        # ====================================================
-
         st.markdown("---")
 
-        st.subheader(
-            "💳 Payment Method"
-        )
+        st.subheader("💳 Payment Method")
 
 
         payment_method = st.radio(
@@ -1108,10 +1139,6 @@ elif st.session_state.current_page == "🛒 Checkout":
             ]
         )
 
-
-        # ====================================================
-        # UPI PAYMENT
-        # ====================================================
 
         if "UPI" in payment_method:
 
@@ -1146,10 +1173,6 @@ elif st.session_state.current_page == "🛒 Checkout":
                 "will be deducted."
             )
 
-
-        # ====================================================
-        # CARD PAYMENT
-        # ====================================================
 
         elif "Card" in payment_method:
 
@@ -1203,10 +1226,6 @@ elif st.session_state.current_page == "🛒 Checkout":
             )
 
 
-        # ====================================================
-        # CASH ON DELIVERY
-        # ====================================================
-
         else:
 
             st.markdown("""
@@ -1226,10 +1245,6 @@ elif st.session_state.current_page == "🛒 Checkout":
             """, unsafe_allow_html=True)
 
 
-        # ====================================================
-        # CONFIRM PAYMENT
-        # ====================================================
-
         st.markdown("---")
 
 
@@ -1246,11 +1261,7 @@ elif st.session_state.current_page == "🛒 Checkout":
             )
 
 
-        if st.button(
-            confirm_text
-        ):
-
-            # Anonymous prototype order ID
+        if st.button(confirm_text):
 
             order_id = (
                 "IBX-"
@@ -1262,15 +1273,11 @@ elif st.session_state.current_page == "🛒 Checkout":
 
             if "Cash" in payment_method:
 
-                payment_status = (
-                    "Cash on Delivery"
-                )
+                payment_status = "Cash on Delivery"
 
             else:
 
-                payment_status = (
-                    "Test Payment Successful"
-                )
+                payment_status = "Test Payment Successful"
 
 
             order = {
@@ -1302,8 +1309,6 @@ elif st.session_state.current_page == "🛒 Checkout":
                 order
             )
 
-
-            # Reward points
 
             st.session_state.points += 10
 
@@ -1351,7 +1356,7 @@ elif st.session_state.current_page == "🛒 Checkout":
 # MY ORDERS
 # ============================================================
 
-elif st.session_state.current_page == "📦 My Orders":
+elif st.session_state.current_page == "My Orders":
 
     st.title("📦 My Orders")
 
@@ -1408,11 +1413,9 @@ elif st.session_state.current_page == "📦 My Orders":
 # DELIVERY & HELP
 # ============================================================
 
-elif st.session_state.current_page == "🚚 Delivery & Help":
+elif st.session_state.current_page == "Delivery & Help":
 
-    st.title(
-        "🚚 Delivery & Campus Help"
-    )
+    st.title("🚚 Delivery & Campus Help")
 
 
     st.write(
@@ -1428,10 +1431,6 @@ elif st.session_state.current_page == "🚚 Delivery & Help":
         ]
     )
 
-
-    # ========================================================
-    # REQUEST HELP
-    # ========================================================
 
     with tab1:
 
@@ -1452,8 +1451,6 @@ elif st.session_state.current_page == "🚚 Delivery & Help":
             placeholder="Example: IBS Main Gate"
         )
 
-
-        # Actual hostel blocks
 
         delivery_blocks = HOSTEL_BLOCKS + [
             "Other / Enter Manually"
@@ -1486,9 +1483,7 @@ elif st.session_state.current_page == "🚚 Delivery & Help":
         )
 
 
-        if st.button(
-            "📤 Post Request"
-        ):
+        if st.button("📤 Post Request"):
 
             if not pickup or not drop:
 
@@ -1526,10 +1521,6 @@ elif st.session_state.current_page == "🚚 Delivery & Help":
                     "✅ Your request has been posted."
                 )
 
-
-    # ========================================================
-    # HELP SOMEONE
-    # ========================================================
 
     with tab2:
 
@@ -1577,9 +1568,7 @@ elif st.session_state.current_page == "🚚 Delivery & Help":
         )
 
 
-        for i, task in enumerate(
-            all_tasks
-        ):
+        for i, task in enumerate(all_tasks):
 
             st.markdown(
                 f"### {task['Task']}"
@@ -1624,11 +1613,9 @@ elif st.session_state.current_page == "🚚 Delivery & Help":
 # ESSENTIAL ASSISTANCE
 # ============================================================
 
-elif st.session_state.current_page == "🏥 Essential Assistance":
+elif st.session_state.current_page == "Essential Assistance":
 
-    st.title(
-        "🏥 Essential Assistance"
-    )
+    st.title("🏥 Essential Assistance")
 
 
     st.warning(
@@ -1668,9 +1655,7 @@ elif st.session_state.current_page == "🏥 Essential Assistance":
     )
 
 
-    if st.button(
-        "🏥 Request Assistance"
-    ):
+    if st.button("🏥 Request Assistance"):
 
         st.success(
             f"✅ Request posted for {need}."
@@ -1686,11 +1671,9 @@ elif st.session_state.current_page == "🏥 Essential Assistance":
 # REWARDS
 # ============================================================
 
-elif st.session_state.current_page == "⭐ Rewards":
+elif st.session_state.current_page == "Rewards":
 
-    st.title(
-        "⭐ IBeX Rewards"
-    )
+    st.title("⭐ IBeX Rewards")
 
 
     col1, col2 = st.columns(2)
@@ -1779,9 +1762,7 @@ elif st.session_state.current_page == "⭐ Rewards":
     st.markdown("---")
 
 
-    st.subheader(
-        "🎁 Redeem Points"
-    )
+    st.subheader("🎁 Redeem Points")
 
 
     reward = st.selectbox(
@@ -1794,9 +1775,7 @@ elif st.session_state.current_page == "⭐ Rewards":
     )
 
 
-    if st.button(
-        "Redeem Reward"
-    ):
+    if st.button("Redeem Reward"):
 
         st.info(
             "Prototype demonstration: "
@@ -1809,11 +1788,9 @@ elif st.session_state.current_page == "⭐ Rewards":
 # PROFILE
 # ============================================================
 
-elif st.session_state.current_page == "👤 Profile":
+elif st.session_state.current_page == "Profile":
 
-    st.title(
-        "👤 My IBeX Profile"
-    )
+    st.title("👤 My IBeX Profile")
 
 
     st.markdown("""
@@ -1850,9 +1827,7 @@ elif st.session_state.current_page == "👤 Profile":
     st.markdown("---")
 
 
-    st.subheader(
-        "🔐 Trust & Privacy"
-    )
+    st.subheader("🔐 Trust & Privacy")
 
 
     trust_col1, trust_col2 = st.columns(2)
